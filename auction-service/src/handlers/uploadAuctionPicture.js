@@ -6,6 +6,7 @@ import { getAuctionById } from "./getAuction";
 import { uploadPictureToS3 } from "../lib/uploadPictureToS3";
 import { setAuctionPictureUrl } from "../lib/setAuctionPictureUrl";
 import uploadAuctionPictureSchema from "../lib/schemas/uploadAuctionPictureSchema";
+import cors from "@middy/http-cors";
 
 async function uploadAuctionPicture(event, context) {
   const { id } = event.pathParameters;
@@ -36,4 +37,5 @@ async function uploadAuctionPicture(event, context) {
 
 export const handler = middy(uploadAuctionPicture)
   .use(httpErrorHandler())
-  .use(validator({ inputSchema: uploadAuctionPictureSchema }));
+  .use(validator({ inputSchema: uploadAuctionPictureSchema }))
+  .use(cors());
